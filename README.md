@@ -82,10 +82,10 @@ npm install
 Navigate to the `ai_model_with_flask_api` directory, activate the Conda environment if it's not already activated, and modify the model loading line in `app.py` to reflect the correct path:
 
 ```python
-model = torch.hub.load('/Users/mahedihasan/Desktop/detection/ai_model_with_flask_api/', 'nameOfTheFile', source='local')
-```
 
-- Note that in the project directory, you will find other trained models based on YOLOv5. Change the model name to use a different model or your custom-trained model.
+model = torch.hub.load('/Users/mahedihasan/Desktop/detection/ai_model_with_flask_api/', 'nameOfTheFile', source='local')
+
+* Note that in the project directory, you will find other trained models based on YOLOv5. To use a different model, including a custom-trained one, change `'nameOfTheFile'` to the appropriate file name of the model you wish to load.
 
 After modifying the path, run the Flask server:
 
