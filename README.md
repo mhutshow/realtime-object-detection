@@ -4,6 +4,11 @@
 
 This project provides a real-time object detection solution using a powerful, custom-trained deep learning model based on YOLOv5. The backend, powered by Flask, handles video processing and model inference, while the frontend, built with React, displays the live video stream along with detected objects. Each detected object is highlighted with a color-coded bounding box and label, enhancing visual distinction.
 
+## **Video Preview**
+
+[Watch the video preview here](https://www.youtube.com/watch?v=hmsWj5Ewhwg)
+
+
 ## **Project Structure**
 
 - **`ai_model_with_flask_api/`**: Contains the Conda environment, the custom-trained YOLOv5 model, and Flask API for backend processing.
@@ -77,7 +82,7 @@ npm install
 Navigate to the `ai_model_with_flask_api` directory, activate the Conda environment if it's not already activated, and modify the model loading line in `app.py` to reflect the correct path:
 
 ```python
-model = torch.hub.load('/Users/mahedihasan/Desktop/detection/ai_model_with_flask_api/', 'trainedmodel', source='local')
+model = torch.hub.load('/Users/mahedihasan/Desktop/detection/ai_model_with_flask_api/', 'nameOfTheFile', source='local')
 ```
 
 - Note that in the project directory, you will find other trained models based on YOLOv5. Change the model name to use a different model or your custom-trained model.
