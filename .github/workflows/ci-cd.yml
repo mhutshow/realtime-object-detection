@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install Node.js dependencies
         run: |
@@ -29,33 +29,35 @@ jobs:
           cd react_frontend
           npm run build
 
+
+      # For future use case
       # Deploy to AWS Lightsail
-      - name: Deploy to Lightsail
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
-          LIGHTSAIL_IP: ${{ secrets.LIGHTSAIL_IP }}
-          LIGHTSAIL_USER: ${{ secrets.LIGHTSAIL_USER }}
-        run: |
-          # Setup SSH
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      # - name: Deploy to Lightsail
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+      #     LIGHTSAIL_IP: ${{ secrets.LIGHTSAIL_IP }}
+      #     LIGHTSAIL_USER: ${{ secrets.LIGHTSAIL_USER }}
+      #   run: |
+      #     # Setup SSH
+      #     mkdir -p ~/.ssh
+      #     echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
 
-          # Transfer files to Lightsail instance
-          scp -r -o StrictHostKeyChecking=no react_frontend/build ${LIGHTSAIL_USER}@${LIGHTSAIL_IP}:~/react_frontend_build
-          scp -r -o StrictHostKeyChecking=no ai_model_with_flask_api ${LIGHTSAIL_USER}@${LIGHTSAIL_IP}:~/ai_model_with_flask_api
+      #     # Transfer files to Lightsail instance
+      #     scp -r -o StrictHostKeyChecking=no react_frontend/build ${LIGHTSAIL_USER}@${LIGHTSAIL_IP}:~/react_frontend_build
+      #     scp -r -o StrictHostKeyChecking=no ai_model_with_flask_api ${LIGHTSAIL_USER}@${LIGHTSAIL_IP}:~/ai_model_with_flask_api
 
-          # Connect to Lightsail and deploy
-          ssh -o StrictHostKeyChecking=no ${LIGHTSAIL_USER}@${LIGHTSAIL_IP} << 'EOF'
-            # Activate Conda environment and start Flask server
-            cd ~/ai_model_with_flask_api
-            conda activate object_env
-            nohup python app.py &
+      #     # Connect to Lightsail and deploy
+      #     ssh -o StrictHostKeyChecking=no ${LIGHTSAIL_USER}@${LIGHTSAIL_IP} << 'EOF'
+      #       # Activate Conda environment and start Flask server
+      #       cd ~/ai_model_with_flask_api
+      #       conda activate object_env
+      #       nohup python app.py &
 
-            # Deploy React frontend
-            sudo rm -rf /var/www/html/*
-            sudo cp -r ~/react_frontend_build/* /var/www/html/
+      #       # Deploy React frontend
+      #       sudo rm -rf /var/www/html/*
+      #       sudo cp -r ~/react_frontend_build/* /var/www/html/
 
-            # Restart Nginx
-            sudo systemctl restart nginx
-          EOF
+      #       # Restart Nginx
+      #       sudo systemctl restart nginx
+      #     EOF
